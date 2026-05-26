@@ -2,7 +2,7 @@ import { AdminFrame } from "../../components/AdminFrame";
 import { heritageSites } from "../../../lib/data";
 
 const audioRows = [
-  { title: "Nhạc nền Chùa Liên Hoa", type: "Nhạc nền", target: "Chùa Liên Hoa", status: "Hiển thị" },
+  { title: "Nhạc nền Chùa Định Công", type: "Nhạc nền", target: "Chùa Định Công", status: "Hiển thị" },
   { title: "Cổng tam quan", type: "Thuyết minh điểm", target: "Cổng tam quan", status: "Hiển thị" },
   { title: "Bia công đức", type: "Âm thanh hotspot", target: "Bia công đức", status: "Hiển thị" },
   { title: "Lời cảm ơn", type: "Âm thanh hệ thống", target: "Kết thúc tham quan", status: "Bản nháp" },
@@ -59,7 +59,7 @@ export default function AdminAudioPage() {
           </label>
           <label>
             <span>Thuộc di tích</span>
-            <select defaultValue="Chùa Liên Hoa">
+            <select defaultValue="Chùa Định Công (Định Công Tự)">
               {heritageSites.map((site) => (
                 <option key={site.id}>{site.name}</option>
               ))}

@@ -2,30 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { PublicHeader } from "./components/PublicHeader";
 import { SiteDirectory } from "./components/SiteDirectory";
-import { getFirstTourableSite, getPublishedSites, heritageSites } from "./lib/data";
+import { getFirstTourableSite, getPublishedSites, heritageSites, solutionHighlights } from "./lib/data";
 
 const tourableSite = getFirstTourableSite();
 const publishedSites = getPublishedSites();
 
-const featureGroups = [
-  {
-    title: "Tham quan trực tuyến",
-    text: "Người xem có thể xoay không gian, chọn điểm dừng, mở thông tin thuyết minh và xem tư liệu ngay trên ảnh toàn cảnh.",
-  },
-  {
-    title: "Tư liệu tập trung",
-    text: "Ảnh, video, âm thanh, bài viết và tài liệu lịch sử được tổ chức thống nhất theo từng di tích.",
-  },
-  {
-    title: "Dễ mở rộng",
-    text: "Mỗi di tích có thể bổ sung thêm điểm VR360, mũi tên điều hướng và hotspot mà không cần thay đổi mã nguồn.",
-  },
+const metrics = [
+  { value: publishedSites.length, label: "cụm di tích trọng điểm" },
+  { value: heritageSites.reduce((sum, site) => sum + site.tourPoints.length, 0), label: "không gian VR360 mẫu" },
+  { value: "4K+", label: "tư liệu số hóa độ phân giải cao" },
 ];
 
-const publicBenefits = [
-  "Tra cứu thông tin di tích theo cách dễ hiểu, phù hợp với người dân và học sinh.",
-  "Tham quan thử trước khi đến trực tiếp, đặc biệt hữu ích với hoạt động giáo dục địa phương.",
-  "Lưu giữ tư liệu văn hóa bằng hình ảnh, âm thanh và nội dung số có cấu trúc.",
+const workflow = [
+  "Khảo sát không gian",
+  "Chụp/quay VR360",
+  "Biên tập tư liệu",
+  "Gắn hotspot",
+  "Xuất bản bản đồ số",
 ];
 
 export default function Home() {
@@ -33,64 +26,70 @@ export default function Home() {
     <main>
       <PublicHeader />
 
-      <section className="hero">
+      <section className="hero premium-hero">
         <Image
           src="/vr360/Sảnh Chính.jpg"
           alt="Không gian di tích phường Định Công"
           fill
           priority
           sizes="100vw"
-          className="hero-image"
+          className="hero-image cinematic-image"
         />
-        <div className="hero-overlay" />
+        <div className="hero-overlay premium-overlay" />
+        <div className="tech-grid-overlay" />
+        <div className="orbital-ring ring-one" />
+        <div className="orbital-ring ring-two" />
+
         <div className="hero-content animate-in">
-          <p className="eyebrow">Nền tảng số hóa di tích phường Định Công</p>
-          <h1>Số hóa di tích lịch sử, văn hóa phường Định Công</h1>
+          <p className="eyebrow">Công nghệ lõi VR360 · Bảo tồn di sản số</p>
+          <h1>Số hóa Di tích Lịch sử Văn hóa tại Phường Định Công</h1>
           <p>
-            Cổng tham quan trực tuyến giúp người dân, học sinh và du khách tiếp cận
-            các di tích địa phương bằng hình ảnh VR360, thuyết minh và tư liệu văn hóa
-            được trình bày trang trọng, mạch lạc.
+            Dự án do Công ty ICS xây dựng nhằm hình thành một “bảo tàng số” trực quan,
+            chuyển đổi các không gian di tích thành dữ liệu số độ phân giải cao, phục vụ
+            người dân, học sinh và du khách khám phá giá trị văn hóa mọi lúc, mọi nơi.
           </p>
           <div className="hero-actions">
-            <Link className="primary-button" href={`/tham-quan/${tourableSite.slug}`}>
-              Bắt đầu tham quan
+            <Link className="primary-button premium-button" href={`/tham-quan/${tourableSite.slug}`}>
+              Khám phá bản đồ VR360
             </Link>
-            <Link className="secondary-button on-dark" href="/di-tich">
-              Xem danh sách di tích
+            <Link className="secondary-button on-dark" href="/gioi-thieu">
+              Xem giải pháp
             </Link>
           </div>
         </div>
-        <div className="hero-stats animate-in delay-one">
-          <span>
-            <strong>{publishedSites.length}</strong>
-            Di tích đang giới thiệu
-          </span>
-          <span>
-            <strong>{tourableSite.tourPoints.length}</strong>
-            Điểm tham quan mẫu
-          </span>
-          <span>
-            <strong>{heritageSites.reduce((sum, site) => sum + site.views, 0).toLocaleString("vi-VN")}</strong>
-            Lượt xem nội dung
-          </span>
+
+        <div className="hero-command-panel animate-in delay-one">
+          <span className="signal-dot" />
+          <strong>Bản đồ số VR360 Định Công</strong>
+          <p>Đình · Chùa · Nhà thờ Tổ nghề · Đền Mẫu</p>
+          <div className="scan-line" />
+        </div>
+
+        <div className="hero-stats premium-stats animate-in delay-two">
+          {metrics.map((metric) => (
+            <span key={metric.label}>
+              <strong>{metric.value}</strong>
+              {metric.label}
+            </span>
+          ))}
         </div>
       </section>
 
-      <section className="section civic-intro" id="du-an">
-        <div className="intro-copy">
-          <p className="eyebrow">Giới thiệu dự án</p>
-          <h2>Không gian số trang trọng cho di sản văn hóa địa phương</h2>
+      <section className="section solution-section">
+        <div className="section-heading wide-heading">
+          <p className="eyebrow">Tổng quan giải pháp</p>
+          <h2>Công nghệ VR360 kết nối giá trị lịch sử với thế hệ tương lai</h2>
           <p>
-            Website được thiết kế như một cổng thông tin phục vụ cộng đồng: dễ tra cứu,
-            dễ tham quan, dễ mở rộng và phù hợp với phong cách truyền thông của cơ quan
-            nhà nước cấp phường. Nội dung công khai chỉ tập trung vào trải nghiệm của
-            người dân; các trạng thái quản trị như bản nháp, ẩn/hiện được tách riêng
-            trong khu vực admin.
+            Nền tảng được thiết kế để lưu trữ, giới thiệu và vận hành nội dung số hóa
+            theo chuẩn dữ liệu tập trung. Mỗi cụm di tích có thể quản lý ảnh toàn cảnh,
+            tuyến tham quan, thuyết minh, tư liệu hiện vật và trạng thái xuất bản riêng.
           </p>
         </div>
-        <div className="feature-grid">
-          {featureGroups.map((item) => (
-            <article className="feature-card reveal-card" key={item.title}>
+
+        <div className="solution-grid">
+          {solutionHighlights.map((item, index) => (
+            <article className="solution-card reveal-card" key={item.title}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </article>
@@ -98,33 +97,74 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section split-showcase">
-        <div className="showcase-image">
-          <Image src="/vr360/Trước Cổng.jpg" alt="Cổng tam quan Chùa Liên Hoa" fill sizes="50vw" />
+      <section className="section spatial-section">
+        <div className="spatial-copy">
+          <p className="eyebrow">Kế hoạch triển khai</p>
+          <h2>Phân bổ cụm không gian VR360 theo từng hạng mục di tích</h2>
+          <p>
+            Mỗi địa điểm được tổ chức thành các lớp quan sát: toàn cảnh tầm cao, tuyến
+            tiếp cận, kiến trúc nội tự và đặc tả bảo tồn hiện vật. Cách phân lớp này giúp
+            giao diện vừa dễ tham quan, vừa đủ sâu cho công tác lưu trữ và giáo dục truyền thống.
+          </p>
         </div>
-        <div className="showcase-copy">
-          <p className="eyebrow">Phục vụ người dân và du khách</p>
-          <h2>Trải nghiệm đơn giản, nội dung rõ ràng, thao tác mượt mà</h2>
-          <div className="benefit-list">
-            {publicBenefits.map((benefit) => (
-              <p key={benefit}>{benefit}</p>
-            ))}
+
+        <div className="spatial-list">
+          {heritageSites.map((site, index) => (
+            <article className="spatial-item reveal-card" key={site.id}>
+              <div className="spatial-index">{String(index + 1).padStart(2, "0")}</div>
+              <div>
+                <span>{site.type}</span>
+                <h3>{site.name}</h3>
+                <p>{site.shortDescription}</p>
+                <ul>
+                  {site.spatialPlan.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <Link href={`/di-tich/${site.slug}`}>Xem hồ sơ số hóa</Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section immersive-band">
+        <div className="immersive-visual">
+          <Image src="/vr360/Trước Cổng.jpg" alt="Điểm mở đầu tham quan VR360" fill sizes="50vw" />
+          <div className="hud-panel hud-left">
+            <span>Yaw</span>
+            <strong>128.4°</strong>
           </div>
-          <Link className="primary-button" href={`/di-tich/${tourableSite.slug}`}>
-            Xem di tích nổi bật
-          </Link>
+          <div className="hud-panel hud-right">
+            <span>Hotspot</span>
+            <strong>Đang khóa tọa độ</strong>
+          </div>
+        </div>
+        <div className="immersive-copy">
+          <p className="eyebrow">Trải nghiệm người dân</p>
+          <h2>Gọn, mượt, trang trọng và dễ sử dụng</h2>
+          <p>
+            Người xem chỉ cần chọn di tích, đọc giới thiệu và bước vào không gian VR360.
+            Các chức năng kỹ thuật như bản nháp, tọa độ, trạng thái hotspot được ẩn khỏi
+            giao diện công khai và chỉ xuất hiện trong khu vực quản trị.
+          </p>
+          <div className="benefit-list premium-benefits">
+            <p>Tham quan theo tuyến điểm, có mũi tên chuyển cảnh và ảnh xem trước.</p>
+            <p>Mở điểm thông tin để xem tư liệu, nghe thuyết minh hoặc xem ảnh hiện vật.</p>
+            <p>Giao diện tối ưu cho máy tính, điện thoại và màn hình trình chiếu tại sự kiện.</p>
+          </div>
         </div>
       </section>
 
       <SiteDirectory sites={publishedSites} />
 
-      <section className="section process-section">
+      <section className="section process-section premium-process">
         <div className="section-heading">
-          <p className="eyebrow">Luồng tham quan</p>
-          <h2>Từ trang giới thiệu đến không gian VR360</h2>
+          <p className="eyebrow">Quy trình tác nghiệp</p>
+          <h2>Từ khảo sát thực địa đến bản đồ số VR360 hoàn chỉnh</h2>
         </div>
-        <div className="timeline">
-          {["Chọn di tích", "Đọc giới thiệu", "Mở VR360", "Xem điểm thông tin", "Nghe thuyết minh"].map((item, index) => (
+        <div className="timeline premium-timeline">
+          {workflow.map((item, index) => (
             <div className="timeline-step" key={item}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{item}</strong>

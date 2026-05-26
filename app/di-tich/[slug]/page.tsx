@@ -62,6 +62,25 @@ export default async function SiteDetailPage({ params }: { params: Promise<{ slu
               <p>{site.culturalValue}</p>
             </section>
           </div>
+
+          <div className="heritage-plan-block">
+            <section>
+              <h2>Phân bổ cụm không gian VR360</h2>
+              <ul>
+                {site.spatialPlan.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+            <section>
+              <h2>Nguyên tắc bảo tồn</h2>
+              <ul>
+                {site.preservationNotes.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          </div>
         </article>
 
         <aside className="detail-aside">

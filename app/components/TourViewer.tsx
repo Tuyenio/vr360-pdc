@@ -2,11 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { HeritageSite, Hotspot } from "../lib/data";
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max);
+type TourMode = "free" | "auto";
+
+function wrap(value: number) {
+  if (value < 0) return 100 + (value % 100);
+  return value % 100;
 }
 
 function hotspotLabel(type: Hotspot["type"]) {
@@ -33,7 +36,32 @@ export function TourViewer({ site }: { site: HeritageSite }) {
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
   const [muted, setMuted] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
+  const [mode, setMode] = useState<TourMode>("free");
   const dragStart = useRef<{ x: number; pan: number } | null>(null);
+
+  useEffect(() => {
+    if (mode !== "auto") return;
+
+    const panTimer = window.setInterval(() => {
+      setPan((value) => wrap(value + 0.18));
+    }, 32);
+
+    const pointTimer = window.setInterval(() => {
+      setCurrentPointId((value) => {
+        const currentIndex = publicPoints.findIndex((point) => point.id === value);
+        const nextPoint = publicPoints[(currentIndex + 1) % publicPoints.length];
+        setActiveHotspot(null);
+        setShowGuide(false);
+        setPan(nextPoint?.initialPan ?? 0);
+        return nextPoint?.id ?? value;
+      });
+    }, 14000);
+
+    return () => {
+      window.clearInterval(panTimer);
+      window.clearInterval(pointTimer);
+    };
+  }, [mode, publicPoints]);
 
   if (!currentPoint) {
     return (
@@ -51,6 +79,7 @@ export function TourViewer({ site }: { site: HeritageSite }) {
     setActiveHotspot(null);
     setCurrentPointId(pointId);
     setPan(targetPan);
+    setShowGuide(false);
   }
 
   function toggleFullscreen() {
@@ -66,18 +95,19 @@ export function TourViewer({ site }: { site: HeritageSite }) {
   }
 
   return (
-    <main className="tour-shell">
+    <main className={mode === "auto" ? "tour-shell auto-mode" : "tour-shell"}>
       <div
         className="panorama-viewport"
         onPointerDown={(event) => {
+          if (mode === "auto") return;
           dragStart.current = { x: event.clientX, pan };
           event.currentTarget.setPointerCapture(event.pointerId);
           setShowGuide(false);
         }}
         onPointerMove={(event) => {
-          if (!dragStart.current) return;
+          if (!dragStart.current || mode === "auto") return;
           const delta = event.clientX - dragStart.current.x;
-          setPan(clamp(dragStart.current.pan - delta / 8, 0, 58));
+          setPan(wrap(dragStart.current.pan - delta / 7));
         }}
         onPointerUp={() => {
           dragStart.current = null;
@@ -92,7 +122,7 @@ export function TourViewer({ site }: { site: HeritageSite }) {
             alt={currentPoint.name}
             fill
             priority
-            sizes="220vw"
+            sizes="240vw"
             className="panorama-image"
           />
 
@@ -149,6 +179,14 @@ export function TourViewer({ site }: { site: HeritageSite }) {
           <p>{currentPoint.name}</p>
         </div>
         <div className="tour-controls">
+          <div className="tour-mode-toggle" aria-label="Chế độ tham quan">
+            <button className={mode === "free" ? "active" : ""} onClick={() => setMode("free")} type="button">
+              Tự do
+            </button>
+            <button className={mode === "auto" ? "active" : ""} onClick={() => setMode("auto")} type="button">
+              Tự động
+            </button>
+          </div>
           <button onClick={() => setMuted((value) => !value)} type="button">
             {muted ? "Bật âm thanh" : "Tắt âm thanh"}
           </button>
@@ -161,7 +199,10 @@ export function TourViewer({ site }: { site: HeritageSite }) {
       {showGuide ? (
         <div className="tour-guide">
           <strong>Hướng dẫn nhanh</strong>
-          <span>Kéo ngang để xoay không gian, chọn mũi tên để di chuyển, chọn biểu tượng thông tin để xem tư liệu.</span>
+          <span>
+            Chọn “Tự do” để kéo xoay toàn cảnh 360 độ, hoặc “Tự động” để hệ thống tự xoay
+            và lần lượt chuyển qua các điểm tham quan.
+          </span>
         </div>
       ) : null}
 
@@ -170,9 +211,12 @@ export function TourViewer({ site }: { site: HeritageSite }) {
         <h2>{currentPoint.name}</h2>
         <p>{currentPoint.description}</p>
         <label className="range-field">
-          <span>Điều chỉnh góc nhìn</span>
-          <input min="0" max="58" type="range" value={pan} onChange={(event) => setPan(Number(event.target.value))} />
+          <span>Điều chỉnh góc nhìn 360°</span>
+          <input min="0" max="100" type="range" value={pan} onChange={(event) => setPan(Number(event.target.value))} />
         </label>
+        <div className="tour-progress">
+          <span style={{ width: `${pan}%` }} />
+        </div>
         {currentPoint.narration ? (
           <audio className="tour-audio-panel" controls muted={muted} key={currentPoint.narration} src={currentPoint.narration} />
         ) : null}

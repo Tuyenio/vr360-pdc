@@ -2,7 +2,7 @@ import { AdminFrame } from "../../components/AdminFrame";
 
 const posts = [
   { title: "Giới thiệu dự án số hóa di tích phường Định Công", category: "Giới thiệu dự án", status: "Đang hiển thị" },
-  { title: "Lịch sử hình thành Chùa Liên Hoa", category: "Di tích", status: "Đang hiển thị" },
+  { title: "Hồ sơ số hóa Chùa Định Công", category: "Di tích", status: "Đang hiển thị" },
   { title: "Hướng dẫn tham quan VR360", category: "Hướng dẫn", status: "Bản nháp" },
 ];
 
@@ -48,7 +48,7 @@ export default function AdminPostsPage() {
           <h2>Bài giới thiệu</h2>
           <label>
             <span>Tiêu đề</span>
-            <input defaultValue="Giới thiệu Chùa Liên Hoa" />
+            <input defaultValue="Giới thiệu Chùa Định Công" />
           </label>
           <label>
             <span>Chuyên mục</span>

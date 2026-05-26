@@ -13,7 +13,7 @@ export default function AdminStatsPage() {
         </article>
         <article className="admin-stat">
           <span>Di tích xem nhiều nhất</span>
-          <strong>Chùa Liên Hoa</strong>
+          <strong>Đình Định Công Thượng & Hạ</strong>
         </article>
         <article className="admin-stat">
           <span>Thiết bị di động</span>

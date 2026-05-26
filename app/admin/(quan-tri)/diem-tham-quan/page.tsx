@@ -45,7 +45,7 @@ export default function AdminTourPointsPage() {
           <h2>Ảnh panorama</h2>
           <label>
             <span>Thuộc di tích</span>
-            <select defaultValue="Chùa Liên Hoa">
+            <select defaultValue="Chùa Định Công (Định Công Tự)">
               {heritageSites.map((site) => (
                 <option key={site.id}>{site.name}</option>
               ))}

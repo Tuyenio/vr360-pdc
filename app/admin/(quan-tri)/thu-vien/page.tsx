@@ -50,7 +50,7 @@ export default function AdminMediaPage() {
           </label>
           <label>
             <span>Thuộc di tích</span>
-            <input defaultValue="Chùa Liên Hoa" />
+            <input defaultValue="Chùa Định Công" />
           </label>
           <label>
             <span>Đường dẫn tệp</span>
