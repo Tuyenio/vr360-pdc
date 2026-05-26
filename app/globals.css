@@ -131,8 +131,31 @@ img {
 }
 
 .cinematic-image {
-  animation: slow-cinema 18s ease-in-out infinite alternate;
+  animation: vr360-pan 24s ease-in-out infinite alternate;
   transform-origin: center;
+  will-change: transform, filter;
+}
+
+.hero-image.cinematic-image {
+  filter: saturate(1.08) contrast(1.03);
+}
+
+@keyframes vr360-pan {
+  0% {
+    transform: scale(1.12) translate3d(-3%, 1.4%, 0) rotate(-0.65deg);
+  }
+  25% {
+    transform: scale(1.14) translate3d(-1.2%, -0.7%, 0) rotate(0.15deg);
+  }
+  50% {
+    transform: scale(1.16) translate3d(2.2%, -1.7%, 0) rotate(0.78deg);
+  }
+  75% {
+    transform: scale(1.14) translate3d(0.8%, 1%, 0) rotate(0.22deg);
+  }
+  100% {
+    transform: scale(1.12) translate3d(-1.6%, 0.5%, 0) rotate(-0.45deg);
+  }
 }
 
 .hero-image,
@@ -168,6 +191,8 @@ img {
   pointer-events: none;
   position: absolute;
   z-index: 2;
+  animation: grid-drift 32s linear infinite alternate;
+  opacity: 0.88;
 }
 
 .orbital-ring {
@@ -382,9 +407,9 @@ img {
 .premium-stats span {
   backdrop-filter: blur(14px);
   background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.94), rgba(255, 253, 248, 0.82)),
-    linear-gradient(120deg, rgba(185, 137, 67, 0.18), transparent);
-  border-color: rgba(185, 137, 67, 0.32);
+    linear-gradient(180deg, rgba(255, 253, 248, 0.88), rgba(247, 243, 232, 0.76)),
+    linear-gradient(120deg, rgba(185, 137, 67, 0.2), transparent 55%);
+  border-color: rgba(185, 137, 67, 0.28);
 }
 
 .hero-stats span,
@@ -401,14 +426,36 @@ img {
 
 .hero-stats span {
   color: #374336;
-  display: grid;
-  min-height: 86px;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  min-height: 100px;
+  overflow: hidden;
+  padding: 18px 20px;
+  position: relative;
+}
+
+.hero-stats span::before {
+  background: linear-gradient(90deg, rgba(185, 137, 67, 0.9), rgba(185, 137, 67, 0.1));
+  content: "";
+  height: 3px;
+  left: 20px;
+  position: absolute;
+  top: 16px;
+  width: 56px;
+  border-radius: 999px;
 }
 
 .hero-stats strong {
   color: var(--green-strong);
-  font-size: 1.8rem;
+  font-size: clamp(1.85rem, 3vw, 2.2rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.hero-stats span {
+  font-size: 1rem;
 }
 
 .section {
@@ -602,8 +649,8 @@ img {
 
 .immersive-visual {
   aspect-ratio: 16 / 10;
-  border: 1px solid rgba(255, 253, 248, 0.18);
-  border-radius: 8px;
+  border: 2px solid rgba(255, 253, 248, 0.18);
+  border-radius: 30px;
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   position: relative;
@@ -617,6 +664,152 @@ img {
   content: "";
   inset: 0;
   position: absolute;
+}
+
+.immersive-play-card {
+  color: #fffdf8;
+  display: block;
+  text-decoration: none;
+  transition:
+    transform 220ms cubic-bezier(.2,.9,.2,1),
+    box-shadow 220ms ease,
+    filter 220ms ease;
+}
+
+.immersive-play-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 34px 110px rgba(0, 0, 0, 0.42);
+  filter: saturate(1.03);
+}
+
+.immersive-launch-card {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.immersive-launch-card:focus-visible {
+  outline: 3px solid rgba(185, 137, 67, 0.82);
+  outline-offset: 4px;
+}
+
+.immersive-play-overlay {
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 32%),
+    linear-gradient(180deg, rgba(3, 12, 9, 0.1), rgba(3, 12, 9, 0.44) 55%, rgba(3, 12, 9, 0.72));
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.immersive-play-center {
+  align-items: center;
+  bottom: 10px;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: min(90%, 380px);
+}
+
+.immersive-play-button {
+  align-items: center;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 247, 244, 0.94)),
+    rgba(255, 253, 248, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  box-shadow:
+    0 18px 52px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  display: inline-flex;
+  height: 92px;
+  justify-content: center;
+  position: relative;
+  width: 92px;
+  backdrop-filter: blur(12px) saturate(170%);
+}
+
+.immersive-play-button::after {
+  border: 4px solid rgba(185, 137, 67, 0.82);
+  border-radius: 999px;
+  content: "";
+  inset: 8px;
+  position: absolute;
+}
+
+.immersive-play-button svg {
+  fill: #1d1d1d;
+  height: 28px;
+  margin-left: 4px;
+  position: relative;
+  width: 28px;
+  z-index: 1;
+}
+
+.immersive-play-center strong {
+  background: rgba(24, 38, 35, 0.84);
+  border: 1px solid rgba(255, 253, 248, 0.22);
+  border-radius: 999px;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.24);
+  color: #fffdf8;
+  display: inline-flex;
+  font-size: clamp(0.86rem, 1.65vw, 1.06rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 12px 22px;
+}
+
+.immersive-play-center p {
+  color: rgba(255, 253, 248, 0.76);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin: 0 0 10px;
+  max-width: 280px;
+}
+
+.vr360-modal {
+  background: rgba(4, 10, 8, 0.94);
+  inset: 0;
+  position: fixed;
+  z-index: 80;
+}
+
+.vr360-modal-stage {
+  height: 100vh;
+  width: 100vw;
+}
+
+.vr360-modal-close {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: #fffdf8;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 2rem;
+  height: 52px;
+  justify-content: center;
+  line-height: 1;
+  position: fixed;
+  left: 18px;
+  top: 18px;
+  width: 52px;
+  z-index: 82;
+  backdrop-filter: blur(18px) saturate(170%);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+}
+
+.tour-back-spacer {
+  flex: 1 1 auto;
+  min-width: 1px;
 }
 
 .hud-panel {
@@ -647,6 +840,14 @@ img {
 .hud-right {
   bottom: 18px;
   right: 18px;
+}
+
+.immersive-play-card .hud-panel {
+  z-index: 3;
+}
+
+.immersive-play-card .hud-panel strong {
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
 }
 
 .immersive-copy {
@@ -2416,6 +2617,16 @@ img {
   }
 }
 
+@keyframes grid-drift {
+  from {
+    transform: translate3d(-1.2%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(1.2%, -0.8%, 0);
+  }
+}
+
 @keyframes scan-flow {
   0%,
   100% {
@@ -2552,7 +2763,8 @@ img {
     position: relative;
     right: auto;
     bottom: auto;
-    margin-top: 42px;
+    margin-top: 32px;
+    max-width: 100%;
   }
 
   .intro-band,
@@ -2760,6 +2972,58 @@ img {
     flex-basis: 132px;
   }
 
+  .immersive-band {
+    gap: 18px;
+    padding-top: 18px;
+  }
+
+  .immersive-visual {
+    aspect-ratio: 16 / 11;
+    border-radius: 24px;
+  }
+
+  .immersive-play-center {
+    bottom: 12px;
+    width: min(94%, 310px);
+  }
+
+  .immersive-play-button {
+    height: 88px;
+    width: 88px;
+  }
+
+  .immersive-play-center strong {
+    padding: 10px 18px;
+    font-size: 0.78rem;
+  }
+
+  .immersive-play-center p {
+    display: none;
+  }
+
+  .hud-left {
+    left: 12px;
+    top: 12px;
+  }
+
+  .hud-right {
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .vr360-modal-close {
+    height: 44px !important;
+    left: auto !important;
+    right: 12px !important;
+    top: 12px !important;
+    width: 44px !important;
+    z-index: 90 !important;
+  }
+
+  .vr360-modal-stage .tour-topbar {
+    padding-top: 64px;
+  }
+
   .marker-title {
     display: none;
   }
@@ -2837,11 +3101,35 @@ img {
   }
 
   .hero-stats span {
-    min-height: 74px;
+    min-height: auto;
   }
 
   .hero-stats strong {
-    font-size: 1.45rem;
+    font-size: clamp(1.4rem, 8vw, 1.9rem);
+  }
+
+  .hero-stats {
+    gap: 12px;
+  }
+
+  .hero-stats span {
+    border-radius: 20px;
+    padding: 14px 16px 13px;
+    background:
+      linear-gradient(180deg, rgba(255, 253, 248, 0.82), rgba(247, 243, 232, 0.68)),
+      linear-gradient(120deg, rgba(185, 137, 67, 0.16), transparent 62%);
+    min-height: 76px;
+  }
+
+  .hero-stats span::before {
+    left: 16px;
+    top: 12px;
+    width: 44px;
+  }
+
+  .hero-stats span {
+    font-size: 0.95rem;
+    gap: 6px;
   }
 
   .tour-side-panel {

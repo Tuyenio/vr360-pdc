@@ -32,7 +32,7 @@ function pitchFromPercent(item: { y?: number; pitch?: number }) {
   return item.pitch ?? (50 - (item.y ?? 50)) * 1.25;
 }
 
-export function TourViewer({ site }: { site: HeritageSite }) {
+export function TourViewer({ site, embedded = false }: { site: HeritageSite; embedded?: boolean }) {
   const publicPoints = useMemo(
     () => site.tourPoints.filter((point) => point.status === "published"),
     [site.tourPoints],
@@ -228,9 +228,13 @@ export function TourViewer({ site }: { site: HeritageSite }) {
       <div className="tour-atmosphere" aria-hidden="true" />
 
       <header className="tour-topbar">
-        <Link href={`/di-tich/${site.slug}`} className="tour-back-button">
-          ← Trang di tích
-        </Link>
+        {!embedded ? (
+          <Link href={`/di-tich/${site.slug}`} className="tour-back-button">
+            ← Trang di tích
+          </Link>
+        ) : (
+          <div className="tour-back-spacer" aria-hidden="true" />
+        )}
         <div className="tour-controls">
           <button
             className={`tour-mode-toggle ${mode === "auto" ? "active" : ""}`}

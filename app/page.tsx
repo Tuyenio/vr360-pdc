@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PublicHeader } from "./components/PublicHeader";
+import { HomeVRExperience } from "./components/HomeVRExperience";
 import { SiteDirectory } from "./components/SiteDirectory";
 import { getFirstTourableSite, getPublishedSites, heritageSites, solutionHighlights } from "./lib/data";
 
@@ -128,33 +129,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section immersive-band">
-        <div className="immersive-visual">
-          <Image src="/vr360/Trước Cổng.jpg" alt="Điểm mở đầu tham quan VR360" fill sizes="50vw" />
-          <div className="hud-panel hud-left">
-            <span>Yaw</span>
-            <strong>128.4°</strong>
-          </div>
-          <div className="hud-panel hud-right">
-            <span>Hotspot</span>
-            <strong>Đang khóa tọa độ</strong>
-          </div>
-        </div>
-        <div className="immersive-copy">
-          <p className="eyebrow">Trải nghiệm người dân</p>
-          <h2>Gọn, mượt, trang trọng và dễ sử dụng</h2>
-          <p>
-            Người xem chỉ cần chọn di tích, đọc giới thiệu và bước vào không gian VR360.
-            Các chức năng kỹ thuật như bản nháp, tọa độ, trạng thái hotspot được ẩn khỏi
-            giao diện công khai và chỉ xuất hiện trong khu vực quản trị.
-          </p>
-          <div className="benefit-list premium-benefits">
-            <p>Tham quan theo tuyến điểm, có mũi tên chuyển cảnh và ảnh xem trước.</p>
-            <p>Mở điểm thông tin để xem tư liệu, nghe thuyết minh hoặc xem ảnh hiện vật.</p>
-            <p>Giao diện tối ưu cho máy tính, điện thoại và màn hình trình chiếu tại sự kiện.</p>
-          </div>
-        </div>
-      </section>
+      <HomeVRExperience site={tourableSite} />
 
       <SiteDirectory sites={publishedSites} />
 
