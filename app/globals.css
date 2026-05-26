@@ -1339,6 +1339,202 @@ img {
   z-index: 1;
 }
 
+/* Collapsed thumbnails: smaller square chips, centered image and click-to-expand */
+.tour-thumbs.collapsed {
+  left: 28px;
+  bottom: 24px;
+  gap: 8px;
+}
+.tour-thumbs.collapsed .tour-thumb {
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  aspect-ratio: unset;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* When fully collapsed keep only the circular bubble visible */
+.tour-thumbs.collapsed {
+  background: transparent;
+  max-width: none;
+  overflow: visible;
+  padding: 6px;
+}
+.tour-thumbs.collapsed .tour-thumb { display: none; }
+.tour-thumbs.collapsed .tour-thumb.active { display: none; }
+.tour-thumbs.collapsed::before { display: none; }
+.tour-thumbs.collapsed .tour-thumb img,
+.tour-thumbs.collapsed .tour-thumb .next-image, /* fallback target */
+.tour-thumbs.collapsed .tour-thumb picture,
+.tour-thumbs.collapsed .tour-thumb .image-wrapper {
+  object-fit: cover;
+  object-position: center;
+}
+.tour-thumbs.collapsed .tour-thumb span {
+  bottom: auto;
+  left: 0;
+  right: 0;
+  top: 6px;
+  text-align: center;
+  font-size: 0.7rem;
+}
+.tour-thumbs.collapsed .tour-thumb strong {
+  display: none;
+}
+
+/* Force-remove outer rounded container when collapsed so only the circular bubble remains */
+.immersive-tour .tour-thumbs.collapsed {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.immersive-tour .tour-thumbs.collapsed .thumbs-collapse {
+  margin: 0 8px 0 8px !important;
+}
+
+.immersive-tour .tour-thumbs.collapsed .thumbs-collapse::before,
+.immersive-tour .tour-thumbs.collapsed .thumbs-collapse::after {
+  inset: 0 !important;
+  border-radius: 50% !important;
+}
+
+/* Mobile-specific adjustments to make the bubble clean and touch-friendly */
+@media (max-width: 760px) {
+  .immersive-tour .tour-thumbs {
+    left: env(safe-area-inset-left, 12px);
+    bottom: calc(env(safe-area-inset-bottom, 12px) + 6px);
+    padding: 0;
+    gap: 10px;
+    max-width: calc(100vw - 28px);
+  }
+
+  .immersive-tour .tour-thumbs.collapsed {
+    left: env(safe-area-inset-left, 12px) !important;
+    bottom: calc(env(safe-area-inset-bottom, 12px) + 6px) !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    gap: 0 !important;
+    max-width: none !important;
+    display: inline-flex !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+
+  .immersive-tour .tour-thumbs.collapsed .thumbs-collapse {
+    width: 56px !important;
+    height: 56px !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.32) !important;
+  }
+
+  .immersive-tour .tour-thumbs.collapsed .thumbs-collapse::before {
+    inset: -6px !important;
+    filter: blur(4px) !important;
+  }
+
+  .immersive-tour .tour-thumbs.collapsed .thumbs-collapse svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* Ensure no leftover rounded container shows */
+  .immersive-tour .tour-thumbs.collapsed::before,
+  .immersive-tour .tour-thumbs.collapsed::after {
+    display: none !important;
+  }
+
+  /* Keep all thumbnails hidden on small screens when collapsed */
+  .immersive-tour .tour-thumbs.collapsed .tour-thumb { display: none !important; }
+}
+
+/* When expanded, add a small collapse control at the leftmost area (user can click outside thumbs to collapse) */
+.tour-thumbs.expanded {
+  left: 28px;
+  bottom: 24px;
+}
+
+/* Collapse arrow button at the start of the thumbnails */
+.tour-thumbs .thumbs-collapse {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: #fffdf8;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(22px) saturate(170%);
+  box-shadow: 0 20px 60px rgba(3,6,4,0.42);
+  transition: transform 200ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms ease, border-color 200ms ease;
+  position: relative;
+  overflow: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0;
+}
+.tour-thumbs .thumbs-collapse svg { stroke: currentColor; }
+.tour-thumbs .thumbs-collapse:active { transform: translateY(1px) scale(0.985); }
+
+/* Outer brass ring */
+.tour-thumbs .thumbs-collapse::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 0 2px rgba(185,137,67,0.55);
+  filter: none;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Subtle inner highlight */
+.tour-thumbs .thumbs-collapse::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.22), rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 70%);
+  pointer-events: none;
+}
+
+/* Hover brass accent and lift */
+.tour-thumbs .thumbs-collapse:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 28px 80px rgba(3,6,4,0.56);
+}
+
+/* When collapsed, the floating bubble stays visible as expand control */
+.tour-thumbs.collapsed .thumbs-collapse {
+  margin-right: 8px;
+}
+
+
 .tour-marker {
   align-items: center;
   background: transparent;
@@ -2893,7 +3089,7 @@ img {
     0 20px 60px rgba(0, 0, 0, 0.14),
     inset 0 1px 0 rgba(255, 255, 255, 0.24),
     inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  transition: transform 360ms cubic-bezier(.2,.9,.2,1), width 360ms ease, height 360ms ease, left 360ms ease, bottom 360ms ease;
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1), width 360ms ease, height 360ms ease;
 }
 
 .immersive-tour .tour-thumb {
@@ -2902,14 +3098,16 @@ img {
 }
 
 .immersive-tour .tour-thumbs.collapsed {
-  width: 74px;
-  padding: 8px;
-  left: 14px;
-  bottom: 74px;
+  width: auto;
+  padding: 0;
+  left: 28px;
+  bottom: 22px;
   height: auto;
-  overflow: hidden;
-  border-radius: 20px;
-  box-shadow: 0 16px 44px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.2);
+  overflow: visible;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  border: 0;
 }
 
 .immersive-tour .tour-thumbs.collapsed .tour-thumb {
@@ -3748,7 +3946,7 @@ img {
   font-size: 0.96rem;
 }
 
-.immersive-tour .tour-thumbs {
+.immersive-tour .tour-thumbs:not(.collapsed) {
   background: rgba(8, 18, 15, 0.38);
   bottom: 18px;
   max-width: min(760px, calc(100vw - 56px));
@@ -3805,7 +4003,7 @@ img {
     right: 10px;
   }
 
-  .immersive-tour .tour-thumbs {
+  .immersive-tour .tour-thumbs:not(.collapsed) {
     bottom: 10px;
     left: 10px;
     max-width: calc(100vw - 20px);

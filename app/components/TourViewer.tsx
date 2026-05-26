@@ -275,15 +275,7 @@ export function TourViewer({ site }: { site: HeritageSite }) {
         </div>
       </header>
 
-      <button
-        className="thumbs-toggle"
-        onClick={toggleThumbs}
-        aria-pressed={thumbsCollapsed}
-        aria-label={thumbsCollapsed ? "Mở danh sách điểm" : "Thu gọn danh sách điểm"}
-        type="button"
-      >
-        <span aria-hidden="true">☰</span>
-      </button>
+      {/* Removed separate three-bar toggle. The thumbnails area itself toggles when collapsed. */}
 
       <aside className="tour-point-pill">
         <span>{String(currentIndex + 1).padStart(2, "0")}</span>
@@ -296,12 +288,42 @@ export function TourViewer({ site }: { site: HeritageSite }) {
       <nav
         className={`tour-thumbs ${thumbsCollapsed ? "collapsed" : "expanded"}`}
         aria-label="Danh sách điểm tham quan"
+        onClick={() => {
+          // if collapsed, clicking the empty area should expand
+          if (thumbsCollapsed) setThumbsCollapsed(false);
+        }}
       >
+        {/* Floating circular toggle: shows chevron left when expanded, chevron right when collapsed.
+            Clicking the whole bubble toggles collapsed state. */}
+        <button
+          className={`thumbs-collapse ${thumbsCollapsed ? "collapsed" : "expanded"}`}
+          type="button"
+          aria-label={thumbsCollapsed ? "Mở danh sách điểm" : "Thu gọn danh sách điểm"}
+          title={thumbsCollapsed ? "Mở danh sách điểm" : "Thu gọn danh sách điểm"}
+          onClick={(e) => {
+            e.stopPropagation();
+            setThumbsCollapsed((v) => !v);
+          }}
+        >
+          {thumbsCollapsed ? (
+            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false" width="22" height="22">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : (
+            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false" width="22" height="22">
+              <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+        </button>
         {publicPoints.map((point, index) => (
           <button
             className={point.id === currentPoint.id ? "tour-thumb active" : "tour-thumb"}
             key={point.id}
-            onClick={() => goToPoint(point.id, point.initialPan)}
+            onClick={(e) => {
+              // stop nav click so clicking a thumb navigates instead of toggling
+              e.stopPropagation();
+              goToPoint(point.id, point.initialPan);
+            }}
             type="button"
             aria-label={`${index + 1}. ${point.name}`}
           >
