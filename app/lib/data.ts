@@ -14,8 +14,10 @@ export type Hotspot = {
   type: HotspotType;
   title: string;
   content: string;
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
+  yaw?: number;
+  pitch?: number;
   media?: string;
   audio?: string;
   status: PublishStatus;
@@ -25,8 +27,10 @@ export type NavigationArrow = {
   id: string;
   title: string;
   toPointId: string;
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
+  yaw?: number;
+  pitch?: number;
   targetPan: number;
   status: PublishStatus;
   transitionEffect: "fade" | "zoom" | "slide";
@@ -136,18 +140,8 @@ function createTourPoints(prefix: string, focus: "đình" | "chùa" | "nhà th�
       narration: "/icons/âm thanh/Cổng tam quan.mp3",
       isStartPoint: true,
       status: "published",
-      hotspots: [
-        {
-          id: `${prefix}-overview-info`,
-          type: "text",
-          title: introTitle,
-          content:
-            "Cụm không gian này được ưu tiên ghi hình toàn cảnh để phục vụ định vị, giới thiệu tuyến tham quan và tạo điểm mở đầu cho bảo tàng số VR360.",
-          x: 52,
-          y: 44,
-          status: "published",
-        },
-      ],
+      // Loại bỏ hotspot giới thiệu mặc định để giữ ảnh panorama nguyên bản
+      hotspots: [],
       arrows: [
         {
           id: `${prefix}-to-interior`,

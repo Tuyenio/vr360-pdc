@@ -2664,3 +2664,1157 @@ img {
     padding: 22px;
   }
 }
+
+/* Polished responsive layer for the production VR360 experience. */
+.sr-only {
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.sphere-viewer {
+  cursor: grab;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+  touch-action: none;
+  z-index: 1;
+}
+
+.sphere-viewer:active {
+  cursor: grabbing;
+}
+
+.sphere-viewer[data-interaction-disabled="true"] {
+  cursor: wait;
+}
+
+.sphere-viewer canvas {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.immersive-tour {
+  background: #050b09;
+  isolation: isolate;
+}
+
+/* Keep the panorama colors intact: remove heavy atmosphere overlay */
+.tour-atmosphere {
+  background: transparent;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.immersive-tour .tour-topbar {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  gap: 12px;
+  left: 18px;
+  padding: 0;
+  right: 18px;
+  top: 18px;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.tour-title-block {
+  min-width: 0;
+}
+
+.tour-title-block h1 {
+  font-size: clamp(1.35rem, 2.8vw, 2.55rem);
+  letter-spacing: 0;
+  line-height: 1.08;
+  max-width: 860px;
+}
+
+.tour-title-block p {
+  font-size: clamp(0.92rem, 1.2vw, 1.05rem);
+}
+
+/* hide the subtitle line in immersive VR to keep view clean */
+.immersive-tour .tour-title-block p { display: none; }
+
+.immersive-tour .tour-controls {
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.immersive-tour .tour-back-button {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #fffdf8;
+  display: inline-flex;
+  font-weight: 800;
+  min-height: 46px;
+  padding: 0 18px;
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+.immersive-tour .tour-back-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Đồng nhất màu kính cho các nút trong chế độ immersive và tăng chiều cao icon
+   - Các nút sẽ dùng cùng nền kính mờ như nút "Trang di tích"
+   - Đặt min-height bằng 46px để chiều cao icon đồng nhất */
+.immersive-tour .tour-back-button,
+.immersive-tour .tour-controls > button,
+.immersive-tour .tour-mode-toggle,
+.immersive-tour .thumbs-toggle,
+.immersive-tour .sound-toggle {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #fffdf8;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 10px 28px rgba(0, 0, 0, 0.12);
+  min-height: 46px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(24px) saturate(180%);
+}
+
+/* Tăng kích thước icon bên trong các nút để đồng bộ chiều cao */
+.immersive-tour .tour-controls svg,
+.immersive-tour .tour-mode-toggle svg,
+.immersive-tour .sound-toggle svg,
+.immersive-tour .thumbs-toggle span {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+/* Hiển thị dấu gạch chéo khi đang tắt âm (muted) */
+.sound-toggle {
+  position: relative;
+}
+.sound-toggle.muted::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  height: 2px;
+  background: rgba(255, 253, 248, 0.92);
+  transform: rotate(-25deg) translateY(-50%);
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+.thumbs-toggle {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 6;
+}
+
+.thumbs-toggle span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tour-entry-panel {
+  /* Entry panel hidden by default in immersive view per request */
+  display: none !important;
+}
+
+.tour-entry-panel h2 {
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.12;
+  margin: 0 0 10px;
+}
+
+.tour-entry-panel p:not(.eyebrow) {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.tour-entry-panel div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.tour-point-pill {
+  /* hide title pill to keep panorama uncluttered */
+  display: none !important;
+}
+
+.tour-point-pill > span {
+  background: var(--gold);
+  border-radius: 50%;
+  color: #17110a;
+  display: grid;
+  font-weight: 900;
+  height: 42px;
+  place-items: center;
+  width: 42px;
+}
+
+.tour-point-pill strong {
+  display: block;
+  line-height: 1.25;
+}
+
+.tour-point-pill p {
+  color: rgba(255, 253, 248, 0.64);
+  font-size: 0.82rem;
+  margin: 2px 0 0;
+}
+
+.immersive-tour .tour-thumbs {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  bottom: 22px;
+  left: 28px;
+  padding: 10px;
+  z-index: 4;
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1), width 360ms ease, height 360ms ease, left 360ms ease, bottom 360ms ease;
+}
+
+.immersive-tour .tour-thumb {
+  flex-basis: 170px;
+  height: 74px;
+}
+
+.immersive-tour .tour-thumbs.collapsed {
+  width: 74px;
+  padding: 8px;
+  left: 14px;
+  bottom: 74px;
+  height: auto;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 16px 44px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.immersive-tour .tour-thumbs.collapsed .tour-thumb {
+  width: 58px;
+  height: 58px;
+  flex-basis: 58px;
+  margin-bottom: 8px;
+  border-radius: 16px;
+}
+
+.immersive-tour .tour-thumbs.expanded {
+  width: auto;
+}
+
+.immersive-tour .tour-thumb span {
+  background: var(--gold);
+  border-radius: 999px;
+  bottom: auto;
+  color: #17110a;
+  display: grid;
+  font-size: 0.72rem;
+  height: 24px;
+  left: 8px;
+  place-items: center;
+  top: 8px;
+  width: 34px;
+}
+
+.immersive-tour .tour-thumbs.collapsed .tour-thumb span {
+  left: 7px;
+  top: 7px;
+  width: 24px;
+  height: 24px;
+  font-size: 0.68rem;
+}
+
+.immersive-tour .tour-thumb strong {
+  bottom: 9px;
+  color: #fffdf8;
+  font-size: 0.82rem;
+  left: 10px;
+  line-height: 1.2;
+  position: absolute;
+  right: 10px;
+  text-align: left;
+  z-index: 1;
+}
+
+.immersive-tour .tour-thumbs.collapsed .tour-thumb strong {
+  display: none;
+}
+
+.immersive-tour .tour-thumbs.collapsed .tour-thumb img {
+  filter: saturate(1.08) contrast(1.02);
+}
+
+/* Mirror / shiny effect for thumbs */
+.tour-thumb {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
+}
+.tour-thumb::after {
+  content: "";
+  position: absolute;
+  left: -60%;
+  top: -40%;
+  width: 160%;
+  height: 140%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.3) 48%, rgba(255,255,255,0.0) 60%);
+  transform: rotate(-18deg) translateX(-100%);
+  transition: transform 900ms cubic-bezier(.2,.9,.2,1), opacity 420ms ease;
+  pointer-events: none;
+  opacity: 0.0;
+}
+.tour-thumb:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.28); }
+.tour-thumb:hover::after { transform: rotate(-18deg) translateX(80%); opacity: 0.95; }
+
+.tour-controls button,
+.thumbs-toggle,
+.sound-toggle,
+.fullscreen-control,
+.tour-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fffdf8;
+  backdrop-filter: blur(22px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 8px 26px rgba(0, 0, 0, 0.12);
+}
+
+.tour-controls button:hover,
+.thumbs-toggle:hover,
+.sound-toggle:hover,
+.fullscreen-control:hover,
+.tour-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.tour-mode-toggle {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 46px;
+  min-width: 46px;
+  padding: 0 14px;
+}
+
+.tour-mode-toggle svg {
+  fill: currentColor;
+  height: 18px;
+  width: 18px;
+}
+
+.tour-mode-toggle.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.26);
+  color: #fffdf8;
+}
+
+.thumbs-toggle,
+.sound-toggle {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  min-width: 44px;
+  padding: 0 12px;
+}
+
+.sound-toggle svg {
+  fill: currentColor;
+  height: 18px;
+  width: 18px;
+}
+
+.viewer-hotspots {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 3;
+}
+
+.hotspot-marker {
+  align-items: center;
+  color: #fffdf8;
+  display: inline-flex;
+  gap: 8px;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: opacity 0.22s cubic-bezier(.2,.9,.2,1), transform 160ms ease;
+  will-change: transform;
+}
+
+.hotspot-marker--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hotspot-marker__icon {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+  display: grid;
+  height: 40px;
+  place-items: center;
+  position: relative;
+  width: 40px;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.hotspot-marker__icon::before {
+  background: currentColor;
+  content: "";
+  height: 18px;
+  width: 18px;
+}
+
+.hotspot-marker--navigation .hotspot-marker__icon {
+  background: rgba(255,255,255,0.04);
+  border: 0;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+  height: 56px;
+  width: 76px;
+}
+
+/* Hide fullscreen control on small screens as requested */
+@media (max-width: 768px) {
+  .fullscreen-control { display: none !important; }
+
+  .immersive-tour .tour-topbar {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    padding: 8px 10px;
+    border-radius: 16px;
+  }
+
+  .immersive-tour .tour-thumbs {
+    left: 10px;
+    bottom: 10px;
+    max-width: calc(100vw - 20px);
+  }
+
+  .immersive-tour .tour-thumbs.collapsed {
+    width: 66px;
+    bottom: 70px;
+  }
+
+  .thumbs-toggle {
+    left: 10px;
+    bottom: 10px;
+  }
+}
+
+/* Improve control buttons spacing and subtle animations */
+.tour-controls button {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fffdf8;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-left: 8px;
+  transition: transform 140ms ease, background 140ms ease;
+}
+.tour-controls button:hover { transform: translateY(-3px); background: rgba(255,255,255,0.09); }
+
+.hotspot-marker--navigation .hotspot-marker__icon::before,
+.hotspot-marker--navigation .hotspot-marker__icon::after {
+  background: rgba(255, 255, 255, 0.96);
+  clip-path: polygon(50% 0, 100% 72%, 82% 100%, 50% 44%, 18% 100%, 0 72%);
+  content: "";
+  height: 26px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  width: 46px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.44));
+}
+
+.hotspot-marker--navigation .hotspot-marker__icon::before {
+  opacity: 0.56;
+  transform: translate(-50%, -26px);
+  animation: hotspotArrowStepTop 1.1s ease-in-out infinite;
+}
+
+.hotspot-marker--navigation .hotspot-marker__icon::after {
+  opacity: 0.88;
+  transform: translate(-50%, 2px);
+  animation: hotspotArrowStepBottom 1.1s ease-in-out infinite;
+}
+
+.hotspot-marker--book .hotspot-marker__icon::before,
+.hotspot-marker--media .hotspot-marker__icon::before {
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, transparent 47%, rgba(8, 30, 24, 0.9) 47% 53%, transparent 53%),
+    linear-gradient(90deg, #fff5cc, #e4bf62);
+  height: 20px;
+  width: 28px;
+}
+
+.hotspot-marker--audio .hotspot-marker__icon::before {
+  clip-path: polygon(0 35%, 32% 35%, 65% 8%, 65% 92%, 32% 65%, 0 65%);
+  height: 24px;
+  width: 24px;
+}
+
+.hotspot-marker--temple .hotspot-marker__icon::before {
+  background:
+    linear-gradient(currentColor 0 0) center 88% / 30px 4px no-repeat,
+    linear-gradient(currentColor 0 0) center 65% / 24px 4px no-repeat,
+    linear-gradient(135deg, transparent 0 46%, currentColor 47% 62%, transparent 63%) 2px 0 / 17px 13px no-repeat,
+    linear-gradient(225deg, transparent 0 46%, currentColor 47% 62%, transparent 63%) 13px 0 / 17px 13px no-repeat;
+  height: 30px;
+  width: 32px;
+}
+
+.hotspot-marker__label,
+.hotspot-marker__preview strong {
+  background: rgba(5, 19, 16, 0.82);
+  border-radius: 999px;
+  color: #fffdf8;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+.hotspot-marker__label {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.hotspot-marker:hover .hotspot-marker__label,
+.hotspot-marker:focus-visible .hotspot-marker__label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hotspot-marker__preview {
+  align-items: center;
+  bottom: calc(100% + 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  left: 50%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, 10px) scale(0.9);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.hotspot-marker:hover .hotspot-marker__preview,
+.hotspot-marker:focus-visible .hotspot-marker__preview {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.hotspot-marker__preview img {
+  border: 2px solid rgba(255, 255, 255, 0.94);
+  border-radius: 50%;
+  height: 92px;
+  object-fit: cover;
+  width: 92px;
+}
+
+.hotspot-debug {
+  background: rgba(4, 18, 15, 0.86);
+  border: 1px solid rgba(232, 204, 132, 0.42);
+  border-radius: 8px;
+  color: #fff7df;
+  font-size: 0.82rem;
+  font-weight: 800;
+  left: 14px;
+  padding: 8px 11px;
+  pointer-events: none;
+  position: absolute;
+  top: 14px;
+  z-index: 4;
+}
+
+.tour-builder {
+  display: grid;
+  gap: 22px;
+}
+
+.builder-flow {
+  background: linear-gradient(135deg, rgba(14, 43, 33, 0.96), rgba(7, 24, 19, 0.98));
+  border: 1px solid rgba(213, 178, 96, 0.22);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 12px;
+}
+
+.builder-flow span {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: rgba(255, 250, 236, 0.62);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.25;
+  min-height: 44px;
+  padding: 10px;
+}
+
+.builder-flow span.active {
+  background: rgba(227, 189, 104, 0.14);
+  border-color: rgba(227, 189, 104, 0.36);
+  color: #fff8df;
+}
+
+.builder-hero-grid,
+.builder-data-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.65fr);
+}
+
+.builder-forms-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.builder-viewer-panel,
+.builder-inspector,
+.builder-mini-list span {
+  background: rgba(255, 253, 248, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.builder-viewer-panel {
+  overflow: hidden;
+}
+
+.builder-viewer-toolbar {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(12, 43, 33, 0.98), rgba(5, 20, 16, 0.98));
+  color: #fffdf8;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+}
+
+.builder-viewer-toolbar h2 {
+  font-size: clamp(1.15rem, 2vw, 1.7rem);
+  margin: 0;
+}
+
+.builder-coordinate {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.builder-coordinate span {
+  background: rgba(227, 189, 104, 0.14);
+  border: 1px solid rgba(227, 189, 104, 0.32);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 7px 10px;
+}
+
+.admin-vr-canvas {
+  aspect-ratio: 16 / 8.4;
+  background: #04110e;
+  min-height: 420px;
+  position: relative;
+}
+
+.builder-note {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+  padding: 14px 18px 18px;
+}
+
+.builder-inspector {
+  align-self: start;
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  position: sticky;
+  top: 18px;
+}
+
+.builder-stat-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.builder-stat-grid span {
+  background: var(--green-soft);
+  border-radius: 8px;
+  color: var(--green-strong);
+  display: grid;
+  font-size: 0.78rem;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.builder-stat-grid strong {
+  font-size: 1.45rem;
+}
+
+.active-builder-form {
+  outline: 2px solid rgba(185, 137, 67, 0.34);
+}
+
+.builder-table .admin-row {
+  grid-template-columns: 1.5fr 0.5fr 0.5fr 0.5fr 0.8fr;
+  text-align: left;
+  width: 100%;
+}
+
+.builder-mini-list {
+  display: grid;
+  gap: 10px;
+}
+
+.builder-mini-list span {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+}
+
+.builder-mini-list small {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+@media (max-width: 1200px) {
+  .site-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .builder-hero-grid,
+  .builder-data-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .builder-inspector {
+    position: relative;
+    top: auto;
+  }
+
+  .admin-vr-canvas {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-shell {
+    display: block;
+  }
+
+  .admin-sidebar {
+    height: auto;
+    padding: 18px;
+    position: relative;
+  }
+
+  .admin-sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: none;
+  }
+
+  .admin-main {
+    padding: 22px;
+  }
+
+  .builder-forms-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    gap: 12px;
+    min-height: auto;
+    padding: 14px 16px 12px;
+  }
+
+  .site-header nav {
+    gap: 6px;
+    margin-left: -2px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .site-header nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header nav a {
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+    padding: 8px 11px;
+  }
+
+  .site-header .header-admin-link {
+    display: none;
+  }
+
+  .hero {
+    min-height: 88vh;
+    padding: 150px 20px 44px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.15rem, 11vw, 3rem);
+    line-height: 1.04;
+  }
+
+  .subpage-hero h1,
+  .detail-hero h1 {
+    font-size: clamp(2rem, 9.5vw, 2.85rem);
+    line-height: 1.08;
+  }
+
+  .hero p,
+  .subpage-hero p {
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+
+  .section {
+    padding: 58px 20px;
+  }
+
+  .site-grid,
+  .solution-grid,
+  .feature-grid,
+  .point-grid,
+  .gallery-grid,
+  .info-split,
+  .heritage-plan-block,
+  .directory-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .immersive-tour .tour-topbar {
+    left: 10px;
+    padding: 12px;
+    right: 10px;
+    top: 10px;
+  }
+
+  .tour-title-block h1 {
+    font-size: clamp(1.05rem, 5.5vw, 1.5rem);
+  }
+
+  .immersive-tour .tour-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .immersive-tour .tour-mode-toggle {
+    grid-column: 1 / -1;
+  }
+
+  .tour-entry-panel {
+    left: 14px;
+    padding: 18px;
+    top: 178px;
+  }
+
+  .tour-point-pill {
+    border-radius: 8px;
+    bottom: 104px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
+    right: 12px;
+  }
+
+  .immersive-tour .tour-thumbs {
+    bottom: 12px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
+  }
+
+  .immersive-tour .tour-thumb {
+    flex-basis: 132px;
+    height: 66px;
+  }
+
+  .builder-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .builder-viewer-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-vr-canvas {
+    aspect-ratio: auto;
+    height: 56vh;
+    min-height: 310px;
+  }
+
+  .builder-stat-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar {
+    padding: 16px;
+  }
+
+  .admin-brand {
+    margin-bottom: 14px;
+  }
+
+  .admin-sidebar nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-left: -2px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .admin-sidebar nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-sidebar nav a {
+    flex: 0 0 178px;
+    min-height: 58px;
+    padding: 10px;
+  }
+
+  .admin-sidebar nav small {
+    display: none;
+  }
+
+  .admin-main h1 {
+    font-size: clamp(1.8rem, 10vw, 2.5rem);
+  }
+}
+
+@media (max-width: 430px) {
+  .brand {
+    font-size: 0.94rem;
+  }
+
+  .brand span {
+    height: 32px;
+    width: 56px;
+  }
+
+  .hero-actions a,
+  .hero-actions button {
+    width: 100%;
+  }
+
+  .tour-entry-panel {
+    max-width: calc(100vw - 24px);
+  }
+
+  .tour-point-pill p,
+  .hotspot-marker__label {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-shell .admin-sidebar nav {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    overflow-x: auto !important;
+  }
+
+  .admin-shell .admin-sidebar nav a {
+    flex: 0 0 178px !important;
+  }
+}
+
+/* Final VR viewing polish: keep the panorama bright and controls compact. */
+.immersive-tour .tour-atmosphere {
+  background:
+    linear-gradient(180deg, rgba(2, 8, 6, 0.28), transparent 18% 78%, rgba(2, 8, 6, 0.18)),
+    linear-gradient(90deg, rgba(2, 8, 6, 0.18), transparent 16% 84%, rgba(2, 8, 6, 0.14));
+}
+
+.immersive-tour .tour-topbar {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  left: 18px;
+  padding: 0;
+  right: 18px;
+  top: 18px;
+}
+
+.tour-back-button,
+.immersive-tour .tour-controls > button,
+.immersive-tour .tour-mode-toggle {
+  background: rgba(9, 22, 18, 0.58);
+  border: 1px solid rgba(255, 253, 248, 0.24);
+  border-radius: 999px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
+  color: #fffdf8;
+  font-weight: 900;
+  min-height: 42px;
+  backdrop-filter: blur(12px);
+}
+
+.tour-back-button {
+  align-items: center;
+  display: inline-flex;
+  padding: 0 14px;
+}
+
+.immersive-tour .tour-controls {
+  gap: 8px;
+}
+
+.immersive-tour .tour-controls > button {
+  padding: 0 14px;
+}
+
+.immersive-tour .tour-mode-toggle {
+  padding: 4px;
+}
+
+.immersive-tour .tour-mode-toggle button {
+  min-height: 34px;
+  padding: 0 14px;
+}
+
+.tour-entry-panel,
+.tour-title-block {
+  display: none !important;
+}
+
+.tour-point-pill {
+  background: rgba(8, 26, 20, 0.68);
+  border-color: rgba(255, 253, 248, 0.18);
+  bottom: 108px;
+  max-width: min(380px, calc(100vw - 56px));
+}
+
+.tour-point-pill > span {
+  height: 38px;
+  width: 38px;
+}
+
+.tour-point-pill strong {
+  font-size: 0.96rem;
+}
+
+.immersive-tour .tour-thumbs {
+  background: rgba(8, 18, 15, 0.38);
+  bottom: 18px;
+  max-width: min(760px, calc(100vw - 56px));
+}
+
+.immersive-tour .tour-thumb {
+  flex-basis: 150px;
+  height: 68px;
+}
+
+@media (max-width: 760px) {
+  .immersive-tour .tour-atmosphere {
+    background:
+      linear-gradient(180deg, rgba(2, 8, 6, 0.18), transparent 22% 78%, rgba(2, 8, 6, 0.16));
+  }
+
+  .immersive-tour .tour-topbar {
+    align-items: flex-start;
+    display: grid;
+    gap: 8px;
+    left: 10px;
+    right: 10px;
+    top: 10px;
+  }
+
+  .tour-back-button {
+    justify-self: start;
+    min-height: 36px;
+  }
+
+  .immersive-tour .tour-controls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: 100%;
+  }
+
+  .immersive-tour .tour-mode-toggle {
+    min-width: 0;
+  }
+
+  .immersive-tour .tour-mode-toggle button {
+    flex: 1;
+    padding: 0 10px;
+  }
+
+  .fullscreen-control {
+    display: none !important;
+  }
+
+  .tour-point-pill {
+    bottom: 92px;
+    left: 10px;
+    max-width: none;
+    right: 10px;
+  }
+
+  .immersive-tour .tour-thumbs {
+    bottom: 10px;
+    left: 10px;
+    max-width: calc(100vw - 20px);
+    padding: 8px;
+    right: 10px;
+  }
+
+  .immersive-tour .tour-thumb {
+    flex-basis: 122px;
+    height: 62px;
+  }
+}
