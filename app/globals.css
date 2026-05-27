@@ -1689,7 +1689,7 @@ img {
   font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
-  backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px);
   box-shadow: 0 20px 60px rgba(3,6,4,0.42);
   transition: transform 200ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms ease, border-color 200ms ease;
   position: relative;
@@ -1733,6 +1733,12 @@ img {
 /* When collapsed, the floating bubble stays visible as expand control */
 .tour-thumbs.collapsed .thumbs-collapse {
   margin-right: 8px;
+}
+
+/* Hide the brown/brass background ring and inner highlight when collapsed */
+.tour-thumbs.collapsed .thumbs-collapse::before,
+.tour-thumbs.collapsed .thumbs-collapse::after {
+  display: none !important;
 }
 
 
@@ -3372,7 +3378,6 @@ img {
   left: 28px;
   padding: 10px;
   z-index: 4;
-  backdrop-filter: blur(24px) saturate(180%);
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.14),
     inset 0 1px 0 rgba(255, 255, 255, 0.24),
